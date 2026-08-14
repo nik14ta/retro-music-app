@@ -136,7 +136,8 @@ body {
     linear-gradient(180deg,
       rgba(0, 0, 0, 0.15) 0%,
       rgba(5, 3, 2, 0.05) 50%,
-      rgba(0, 0, 0, 0.88) 100%);
+      rgba(0, 0, 0, 0.88) 100%),
+    radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.7) 110%);
 
   z-index: -1;
 }
