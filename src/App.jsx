@@ -99,6 +99,36 @@ export default function App() {
   }, [currentIndex])
 
   // ------------------------------------------------
+  // BROWSER TAB TITLE
+  // ------------------------------------------------
+
+  useEffect(() => {
+    document.title = isPlaying
+      ? `♪ ${currentSong.title} — Radio 97.5`
+      : 'Radio 97.5 · Retro Hits'
+  }, [currentSong, isPlaying])
+
+  // ------------------------------------------------
+  // KEYBOARD SHORTCUTS
+  // ------------------------------------------------
+
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.target.tagName === 'INPUT') return
+      if (e.code === 'Space') {
+        e.preventDefault()
+        setIsPlaying(p => !p)
+      } else if (e.code === 'ArrowRight') {
+        handleNext()
+      } else if (e.code === 'ArrowLeft') {
+        handlePrev()
+      }
+    }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [])
+
+  // ------------------------------------------------
   // PLAY / PAUSE + CINEMATIC ANIMATION
   // ------------------------------------------------
 
@@ -115,7 +145,7 @@ export default function App() {
       // starts listening.
       cinemaTimer.current = setTimeout(() => {
         setCinemaTriggered(true)
-      }, 1200)
+      }, 3000)
     } else {
       // Stop music
       audioRef.current.pause()
@@ -449,32 +479,16 @@ export default function App() {
           {/* CASSETTE */}
 
           <div className="cassette-visual">
-
-            <div
-              className={`cassette-body ${isPlaying
-                ? 'glowing'
-                : ''
-                }`}
-            >
-
-              <div className="cassette-window">
-
-                <div
-                  className={`reel left ${isPlaying
-                    ? 'spinning'
-                    : ''
-                    }`}
-                />
-
-                <div
-                  className={`reel right ${isPlaying
-                    ? 'spinning'
-                    : ''
-                    }`}
-                />
-
+            <div className={`cover-art-frame ${isPlaying ? 'glowing-cover' : ''}`}>
+              <img
+                src={currentSong.cover}
+                alt={currentSong.title}
+                className="cover-art-img"
+              />
+              <div className="cover-art-reels">
+                <div className={`reel left ${isPlaying ? 'spinning' : ''}`} />
+                <div className={`reel right ${isPlaying ? 'spinning' : ''}`} />
               </div>
-
             </div>
           </div>
 
@@ -486,9 +500,11 @@ export default function App() {
               NOW PLAYING
             </div>
 
-            <h2 className="np-title">
-              {currentSong.title}
-            </h2>
+            <div className="np-title-wrap">
+              <h2 className={`np-title ${currentSong.title.length > 22 ? 'marquee' : ''}`}>
+                {currentSong.title}
+              </h2>
+            </div>
 
             <p className="np-artist">
               {currentSong.artist}
