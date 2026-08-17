@@ -24,6 +24,12 @@ const songs = [
     artist: 'Dilwale Dulhania Le Jayenge',
     cover: '/cover2.jpg',
   },
+  {
+    file: '/ye-un-dinon.mpeg',
+    title: 'Yeh Un Dinon Ki Baat Hai',
+    artist: 'Tum Se Achha Kaun Hai',
+    cover: '/cover4.jpg',
+  }
 ];
 
 export default songs;
